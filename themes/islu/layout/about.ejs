@@ -1,0 +1,152 @@
+<link rel="stylesheet" type="text/css" href="<%- theme.jsDelivr.url %><%- url_for('/css/detail/about.css') %>">
+
+<%- partial('_partial/index-cover') %>
+<h1 class="about-message">
+    <div class="social-link hide-on-large-only" style="display: block !important;margin: 28px 0px;" data-aos="zoom-in-left">
+        <%- partial('_partial/social-link') %>
+    </div>
+    一名追求技术喜欢安静的程序猿，目前还是带专人。
+</h1>
+<div id="card" class="about-body">
+    <div class="windows">
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+        <div class="window"></div>
+    </div>
+    <div class="fan">
+        <div class="fan_root">
+            <span class="top">
+                <label for="engine" class="red"></label>
+                <label for="engine2" class="green"></label>
+                <label for="jack" class="blue"></label>
+            </span>
+            <span class="bottom"></span></div>
+        <div class="fan_staddle"></div>
+        <input id="jack" type="checkbox" hidden="hidden">
+        <div class="head">
+            <div class="fan_engine">
+                <span class="center"></span>
+            </div>
+            <input id="engine" type="checkbox" hidden="hidden" checked="checked">
+            <div>
+                <span class="fly"></span>
+                <span class="fly"></span>
+                <span class="fly"></span>
+                <div class="fan_blades">
+                    <input id="engine2" type="checkbox" hidden="hidden" checked="checked">
+                    <div class="fan_blades">
+                        <div class="center"></div>
+                        <div class="blade">
+                            <span></span>
+                        </div>
+                        <div class="blade">
+                            <span></span>
+                        </div>
+                        <div class="blade">
+                            <span></span>
+                        </div>
+                        <div class="blade">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h1 class="islu_fonts">
+            追求优雅的代码,喜欢好看的UI。
+        </h1>
+        <h1 class="islu_fonts">
+            热爱运用各种技术探索某种业务场景的最优解。
+        </h1>
+        <h1 class="islu_fonts">
+            大道至简，尝试复杂问题简单化。
+        </h1>
+        <h1 class="islu_fonts">
+            爱抽象思维，尝试使用设计模式来实际运用解决问题。
+        </h1>
+        <h1 class="islu_fonts">
+            全栈之路，励志成为一名优秀架构师。
+        </h1>
+        <div id="readMore">
+            <div  class="waves-effect waves-light btn">查看更多</div>
+        </div>
+    </div>
+</div>
+<script>
+    var temp = -1; //-1为隐藏
+    $("#readMore").click(function () {
+        if (temp == -1) { //本来是显示的，所以就隐藏咯
+            $("#readmore").css("display", "block");
+            temp = 1; //隐藏了就把状态改变了
+        } else {
+            $("#readmore").css("display", "none");
+            temp = -1;
+        }
+    });
+
+</script>
+
+<main id="readmore" class="content">
+    <div id="aboutme" class="container about-container">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
+                        <%- partial('_partial/post-statis') %>
+                    </div>
+                    <div class="col s12 m12 l4">
+                        <div class="profile center-align">
+                            <div class="avatar">
+                                <img src="<%- url_for(theme.profile.avatar) %>" alt="<%- config.author %>"
+                                     class="circle responsive-img avatar-img">
+                            </div>
+                            <div class="author">
+                                <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
+                                    <%- partial('_partial/post-statis') %>
+                                </div>
+                                <div class="title"><%- config.author %></div>
+                                <div class="career"><%- theme.profile.career %></div>
+                                <div class="social-link hide-on-large-only" data-aos="zoom-in-left">
+                                    <%- partial('_partial/social-link') %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l4 hide-on-med-and-down" data-aos="zoom-in-left">
+                        <div class="social-link">
+                            <%- partial('_partial/social-link') %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="introduction center-align" data-aos="fade-up"><%= theme.profile.introduction %></div>
+
+                <% if (theme.aboutTable && theme.aboutTable.enable) { %>
+                    <%- partial('_partial/about-table') %>
+                <% } %>
+
+                <% if (theme.myProjects && theme.myProjects.enable) { %>
+                    <%- partial('_widget/my-projects') %>
+                <% } %>
+
+                <% if (theme.mySkills && theme.mySkills.enable) { %>
+                    <%- partial('_widget/my-skills') %>
+                <% } %>
+
+                <% if (theme.myGallery && theme.myGallery.enable) { %>
+                    <%- partial('_widget/my-gallery') %>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</main>

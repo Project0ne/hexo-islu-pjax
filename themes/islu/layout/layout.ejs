@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html lang="<%= config.language %>">
+<%- partial('_partial/head') %>
+<body>
+
+<%- partial('_partial/header') %>
+<div id="pjax-container">
+    <%- body %>
+</div>
+<% if (theme.indexIntroduction.enable){ %>
+    <%- partial('_partial/introduction') %>
+<% } %>
+<!--是否开启暗黑模式-->
+<% if (theme.dark.enable) { %>
+    <script src="<%- theme.jsDelivr.url %><%- url_for('/js/dark.js') %>"></script>
+    <% if (theme.dark.enable && theme.dark.by){ %>
+        <div id="bg">
+            <canvas></canvas>
+            <canvas></canvas>
+            <canvas></canvas>
+        </div>
+        <!--        同id="bg"为canva动画效果-->
+        <script src="<%- theme.jsDelivr.url %><%- url_for('/js/canva.js') %>"></script>
+    <% } %>
+<% } %>
+<!--footer-->
+<%- partial('_partial/footer') %>
+<!--search-->
+<%- partial('_partial/search') %>
+<%- partial('_partial/all-btn') %>
+
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.materialize) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.masonry) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.aos) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.scrollProgress) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.lightgallery) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.islu) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.search) %>"></script>
+
+<!--谷歌广告接入点-->
+<% if (theme.guanggao.enable) { %>
+    <script data-ad-client="ca-pub-9875299461913117" async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<% } %>
+
+<%- partial('_partial/google-analytics') %>
+<%- partial('_partial/baidu-analytics') %>
+<%- partial('_partial/baidu-push') %>
+<% if (theme.clicklove.enable) { %>
+    <script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.clicklove) %>" async="async"></script>
+<% } %>
+<script type="text/javascript">
+    (function () {
+        var a_idx = 0;
+        window.onclick = function (event) {
+            var a = ["❤富强", "民主❤", "❤文明", "和谐❤", "❤自由", "平等❤", "❤公正", "法治❤", "❤爱国", "敬业❤", "❤诚信", "友善❤"];
+            var heart = document.createElement("b");	/*创建b元素*/
+            heart.onselectstart = new Function('event.returnValue=false');	/*防止拖动*/
+            document.body.appendChild(heart).innerHTML = a[a_idx];		/*将b元素添加到页面上*/
+            a_idx = (a_idx + 1) % a.length;
+            heart.style.cssText = "position: fixed;left:-100%;";	/*给p元素设置样式*/
+            var f = 16, 	/*字体大小*/
+                x = event.clientX - f / 2, /*横坐标*/
+                y = event.clientY - f, /*纵坐标*/
+                c = randomColor(),  /*随机颜色*/
+                a = 1, 				/*透明度*/
+                s = 1.2; 			/*放大缩小*/
+            var timer = setInterval(function () {		/*添加定时器*/
+                if (a <= 0) {
+                    document.body.removeChild(heart);
+                    clearInterval(timer);
+                } else {
+                    heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" + c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" + s + ");";
+                    y--;
+                    a -= 0.016;
+                    s += 0.002;
+                }
+            }, 15)
+        }
+
+        /*随机颜色*/
+        function randomColor() {
+            return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+        }
+    }());
+    console.log("%c                哇~！你发现了窝的彩蛋                 \n" +
+        "                 📬 留条信息再走吧~                   ",
+        "color: #FFF;background: rgba(252,234,187,1);background: -moz-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%,rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -webkit-gradient(left top, right top, color-stop(0%, rgba(252,234,187,1)), color-stop(12%, rgba(175,250,77,1)), color-stop(28%, rgba(0,247,49,1)), color-stop(39%, rgba(0,210,247,1)), color-stop(51%, rgba(0,189,247,1)), color-stop(64%, rgba(133,108,217,1)), color-stop(78%, rgba(177,0,247,1)), color-stop(87%, rgba(247,0,189,1)), color-stop(100%, rgba(245,22,52,1)));background: -webkit-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -o-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: -ms-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);background: linear-gradient(to right, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 12%, rgba(0,247,49,1) 28%, rgba(0,210,247,1) 39%, rgba(0,189,247,1) 51%, rgba(133,108,217,1) 64%, rgba(177,0,247,1) 78%, rgba(247,0,189,1) 87%, rgba(245,22,52,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#f51634', GradientType=1 );font-size:5em")
+</script>
+<% if (theme.busuanziStatistics && theme.busuanziStatistics.enable) { %>
+    <script async type="application/javascript">
+        $(document).on('pjax:complete', function () {
+            $.getScript('<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.busuanzi) %>');
+        })
+    </script>
+<% } %>
+
+<% if (theme.myhk.enable){ %>
+    <script src="https://myhkw.cn/api/player/1618106915114" id="myhk" key="1618106915114" m="1"></script>
+<% } %>
+
+<% if (theme.canvas_nest.enable) { %>
+    <script type="text/javascript" color="<%- theme.canvas_nest.color %>"
+            pointColor="<%- theme.canvas_nest.pointColor %>" opacity='<%- theme.canvas_nest.opacity %>'
+            zIndex="<%- theme.canvas_nest.zIndex %>" count="<%- theme.canvas_nest.count %>"
+            src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.canvas_nest) %>"></script>
+<% } %>
+
+<% if (theme.ribbon.enable) { %>
+    <% var ribbonSrc = theme.ribbon.clickChange ? theme.libs.js.ribbon : theme.libs.js.ribbonRefresh; %>
+    <script type="text/javascript" size="<%- theme.ribbon.size %>" alpha='<%- theme.ribbon.alpha %>'
+            zIndex="<%- theme.ribbon.zIndex %>" src="<%- theme.jsDelivr.url %><%- url_for(ribbonSrc) %>"
+            async="async"></script>
+<% } %>
+
+<% if (theme.ribbon_dynamic.enable) { %>
+    <script type="text/javascript" src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.ribbon_dynamic) %>"
+            async="async"></script>
+<% } %>
+
+<% if (theme.instantpage.enable) { %>
+    <script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.instantpage) %>" type="module"
+            integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+<% } %>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.tocbot) %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for('/libs/valine/av-min.js') %>"></script>
+<script src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.valine) %>"></script>
+<script type="text/javascript" src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.echarts) %>"></script>
+<script type="text/javascript" src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.jqcloud) %>"></script>
+</body>
+
+</html>

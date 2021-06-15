@@ -1,0 +1,20 @@
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll" title="回到顶部">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+<% if (theme.dark.enable) { %>
+    <a onclick="switchNightMode()" id="sma" title="模式切换">
+        <i class="fa fa-moon-o" id="nightMode" aria-hidden="true"></i>
+    </a>
+<% } %>
+<!-- 打开小程序二维码 -->
+<div class="btn-ewm" title="小程序">
+    <a class="btn-floating btn-large" onclick="btn_ewm()" id="btn_ewm">
+        <i class="fas fa-paper-plane"></i>
+    </a>
+    <div class="div_ewm" id="ewm">
+        <img src="https://files.islu.cn/detail/xcx.jpg" alt="小程序" title="小程序">
+    </div>
+</div>

@@ -1,0 +1,305 @@
+<%
+// get all cover posts.
+var coverPosts = [];
+site.posts.forEach(function (post) {
+    if (post.cover) {
+        coverPosts.push(post);
+    }
+});
+var coverPostsCount = coverPosts.length;
+%>
+
+<div id="smarts" class="carousel carousel-slider center index-cover" data-indicators="true" style="margin-top: -64px;">
+    <% if (coverPostsCount > 0 && theme.cover.showPrevNext) { %>
+        <div id="prev-cover" class="left waves-effect carousel-control">
+            <i class="icon fa fa-angle-left"></i>
+        </div>
+        <div id="next-cover" class="right waves-effect carousel-control">
+            <i class="icon fa fa-angle-right"></i>
+        </div>
+    <% } %>
+
+    <div class="carousel-item red white-text bg-cover about-cover">
+        <div class="container">
+            <%- partial('_partial/bg-cover-content') %>
+
+            <div class="cover-btns" id="scroll">
+                <a href="<%=
+                [theme.dream, theme.music, theme.video, theme.recommend]
+                        .some(i => i.enable)? "#card": "#articles"
+                %>" class="waves-effect waves-light scroll-down-effects">
+                    <i class="fa fa-angle-double-down"></i>
+                </a>
+            </div>
+            <% if (theme.socialLink.enable) { %>
+                <div class="cover-social-link"><%- partial('_partial/social-link') %></div>
+            <% } %>
+        </div>
+    </div>
+
+    <% if (coverPostsCount > 0) { %>
+        <%
+            var hashCode = function (str) {
+                if (!str && str.length === 0) {
+                    return 0;
+                }
+
+                var hash = 0;
+                for (var i = 0, len = str.length; i < len; i++) {
+                    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                    hash |= 0;
+                }
+                return hash;
+            };
+
+            var featureImages = theme.featureImages;
+            var imgCount = featureImages.length;
+        %>
+
+        <% for (var i = 0; i < coverPostsCount; i++) { %>
+            <%
+                var post = coverPosts[i];
+                var featureImage = featureImages[Math.abs(hashCode(post.title) % imgCount)];
+
+                var coverImg;
+                if (post.coverImg) {
+                    coverImg = post.coverImg;
+                } else if (post.img) {
+                    coverImg = post.img;
+                } else {
+                    coverImg = featureImage;
+                }
+            %>
+            <div class="carousel-item amber white-text carousel-post bg-cover"
+                 style="background-image: url('<%- theme.jsDelivr.url %><%- url_for(coverImg) %>');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s10 offset-s1">
+                            <div class="title center-align"><%= post.title %></div>
+                            <div class="description center-align">
+                                <% if (post.summary && post.summary.length > 0) { %>
+                                    <%- post.summary %>
+                                <% } else { %>
+                                    <%- strip_html(post.content).substring(0, 120) %>
+                                <% } %>
+                            </div>
+                            <div class="cover-btns">
+                                <a href="<%- url_for(post.path) %>" class="waves-effect waves-light btn"
+                                   target="_blank">
+                                    <i class="icon fa fa-eye fa-fw"></i><%- __('readMore') %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    <% } %>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        let coverSlider = $('.carousel');
+
+        //用户触摸轮播自动 restartPlay 是否生效
+        let initUserPressedOrDraggedActive = false;
+
+        //用户触摸轮播自动 restartPlay
+        function initUserPressedOrDragged(instance) {
+            setInterval(() => {
+                if (instance.pressed || instance.dragged) {
+                    // console.log('initUserPressedOrDragged: ',instance.pressed,instance.dragged)
+                    restartPlay();
+                }
+            }, 1000)
+        }
+
+        coverSlider.carousel({
+            duration: Number('<%- theme.cover.duration %>'),
+            fullWidth: true,
+            indicators: '<%- theme.cover.showIndicators %>' === 'true',
+            onCycleTo() {
+                if (!initUserPressedOrDraggedActive) {
+                    // console.log('initUserPressedOrDraggedActive')
+                    initUserPressedOrDragged(this)
+                    initUserPressedOrDraggedActive = true
+                }
+            },
+        })
+
+        let carouselIntervalId;
+        <% if (theme.cover.autoLoop) { %>
+        // Loop to call the next cover article picture.
+        let autoCarousel = function () {
+            carouselIntervalId = setInterval(function () {
+                coverSlider.carousel('next');
+            }, <%- theme.cover.intervalTime %>);
+        };
+        autoCarousel();
+        <% } %>
+
+        function restartPlay() {
+            <% if (theme.cover.autoLoop) { %>
+            clearInterval(carouselIntervalId);
+            autoCarousel();
+            <% } %>
+        };
+
+        <% if (theme.cover.showPrevNext) { %>
+        // prev and next cover post.
+        $('#prev-cover').click(function () {
+            coverSlider.carousel('prev');
+            restartPlay();
+        });
+        $('#next-cover').click(function () {
+            coverSlider.carousel('next');
+            restartPlay();
+        });
+        <% } %>
+    });
+
+    /*上升气泡主函数*/
+    circleMagic();
+    function circleMagic(options) {
+        let width;
+        let height;
+        let canvas;
+        let ctx;
+        let animateHeader = true;
+        const circles = [];
+
+        const settings = options || {
+            color: 'rgba(255,255,255,.5)',
+            radius: 10,
+            density: 0.3,
+            clearOffset: 0.2
+        }
+
+
+        //  Main
+
+        const container = document.getElementById('smarts');
+        initContainer();
+        addListeners();
+
+
+        function initContainer() {
+            width = container.offsetWidth;
+            height = container.offsetHeight - 120;
+
+            //  create canvas element
+
+            initCanvas();
+            canvas = document.getElementById('homeTopCanvas');
+            canvas.width = width;
+            canvas.height = height;
+            canvas.style.position = 'absolute';
+            canvas.style.left = '0';
+            canvas.style.bottom = '0';
+            ctx = canvas.getContext('2d');
+
+            //  create circles
+            for (let x = 0; x < width * settings.density; x++) {
+                const c = new Circle();
+                circles.push(c);
+            }
+            animate();
+        }
+
+        // Init canvas element
+        function initCanvas() {
+            const canvasElement = document.createElement('canvas');
+            canvasElement.id = 'homeTopCanvas';
+            canvasElement.style.pointerEvents = 'none';
+            container.appendChild(canvasElement);
+            canvasElement.parentElement.style.overflow = 'hidden';
+        }
+
+        // Event handling
+        function addListeners() {
+            window.addEventListener('scroll', scrollCheck, false);
+            window.addEventListener('resize', resize, false);
+        }
+
+        function scrollCheck() {
+            if (document.body.scrollTop > height) {
+                animateHeader = false;
+            } else {
+                animateHeader = true;
+            }
+        }
+
+        function resize() {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            container.height = height + 'px';
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function animate() {
+            if (animateHeader) {
+                ctx.clearRect(0, 0, width, height);
+                for (const i in circles) {
+                    circles[i].draw();
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function randomColor() {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            const alpha = Math.random().toPrecision(2);
+            return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+        }
+
+        //  Canvas manipulation
+
+        function Circle() {
+            const that = this;
+
+            // constructor
+            (function () {
+                that.pos = {};
+                init();
+            })();
+
+            function init() {
+                that.pos.x = Math.random() * width;
+                that.pos.y = height + Math.random() * 100;
+                that.alpha = 0.1 + Math.random() * settings.clearOffset;
+                that.scale = 0.1 + Math.random() * 0.3;
+                that.speed = Math.random();
+                if (settings.color === 'random') {
+                    that.color = randomColor();
+                } else {
+                    that.color = settings.color;
+                }
+            }
+
+            this.draw = function () {
+                if (that.alpha <= 0) {
+                    init();
+                }
+                that.pos.y -= that.speed;
+                that.alpha -= 0.0005;
+                ctx.beginPath();
+                ctx.arc(
+                    that.pos.x,
+                    that.pos.y,
+                    that.scale * settings.radius,
+                    0,
+                    2 * Math.PI,
+                    false
+                );
+                ctx.fillStyle = that.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+    }
+
+</script>

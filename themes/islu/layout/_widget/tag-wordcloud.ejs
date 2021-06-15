@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="<%- theme.jsDelivr.url %><%- url_for(theme.libs.css.jqcloud) %>">
+<div class="container" style="padding-bottom: 20px" data-aos="fade-up">
+    <div class="card" style="background-image: url('https://files.islu.cn/article/20210525124558.png')">
+        <div id="tag-wordcloud" class="card-content"></div>
+    </div>
+</div>
+<script type="text/javascript" src="<%- theme.jsDelivr.url %><%- url_for(theme.libs.js.jqcloud) %>"></script>
+<script type="text/javascript">
+    load_wordCloud = function () {
+        <%
+        let tagWordArr = [];
+        site.tags.map(function(tag) {
+            tagWordArr.push({'text': tag.name, 'weight': tag.length, 'link': decodeURI(url_for(tag.path))});
+        });
+
+        let tagWords = JSON.stringify(tagWordArr);
+        %>
+        let tag_wordcloud = $('#tag-wordcloud');
+
+        tag_wordcloud.jQCloud(<%- tagWords %>, {
+            autoResize: true,
+            height: tag_wordcloud.css.height
+        });
+    }
+
+    $(document).ready(load_wordCloud);
+    $(document).on('pjax:send',function(){
+        if ($('#tag-wordcloud').length) load_wordCloud.destroy();
+    })
+    $(document).on('pjax:complete',function(){
+        load_wordCloud();
+    })
+</script>
