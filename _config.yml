@@ -14,7 +14,7 @@ timezone: #时区，可以不填写
 
 # URL
 ## 在这里设置你的网站url。例如，如果你使用GitHub页面，设置url为“https://username.github.io/project”
-url: https://www.islu.cn
+url: https://blog.islu.cn
 permalink: posts/:abbrlink.html
 permalink_defaults:
 pretty_urls:
@@ -220,63 +220,3 @@ hexo_seo_autopush:
     enable: true
     count: 10
     google_file: google_service_account.json # 谷歌服务账户
-
-# PWA
-#pwa:
-#  manifest:
-#    path: /manifest.json
-#    body:
-#      name: 过客~励む
-#      short_name: 过客~励む
-#      theme_color: white
-#      background_color: white
-#      display: standalone
-#      orientation: portrait
-#      scope: /
-#      start_url: /
-#      icons:
-#        - src: /medias/ico/36.jpg
-#          type: image/jpg
-#          sizes: 36x36
-#        - src: /medias/ico/48.jpg
-#          type: image/jpg
-#          sizes: 48x48
-#        - src: /medias/ico/96.jpg
-#          type: image/jpg
-#          sizes: 96x96
-#        - src: /medias/ico/128.jpg
-#          type: image/jpg
-#          sizes: 128x128
-#        - src: /medias/ico/144.jpg
-#          type: image/jpg
-#          sizes: 144x144
-#        - src: /medias/ico/180.jpg
-#          type: image/jpg
-#          sizes: 180x180
-#        - src: /medias/ico/192.jpg
-#          type: image/jpg
-#          sizes: 192x192
-#        - src: /medias/ico/512.jpg
-#          type: image/jpg
-#          sizes: 512x512
-#        - src: /medias/ico/apple-touch-icon.jpg
-#          type: image/jpg
-#          sizes: 180x180
-#  serviceWorker:
-#    path: /sw.js
-#    preload:
-#      urls:
-#        - /
-#      posts: 12
-#    opts:
-#      networkTimeoutSeconds: 30
-#    routes:
-#      - pattern: !!js/regexp /hm.baidu.com/
-#        strategy: networkOnly
-#      - pattern: !!js/regexp /www.google-analytics.com/
-#        strategy: networkOnly
-#      - pattern: !!js/regexp /.*\.(js|css|jpg|jpeg|png|gif)$/
-#        strategy: cacheFirst
-#      - pattern: !!js/regexp /\//
-#        strategy: networkFirst
-#  priority: 5
